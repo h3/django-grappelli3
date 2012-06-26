@@ -1,6 +1,6 @@
 {% load grp_tags %}
 {% spaceless %}
-    <fieldset class="grp-module {{ fieldset.classes }}">
+    <fieldset class="grp-module control-group  well {{ fieldset.classes }}">
         {% if fieldset.name %}<h2 class="grp-collapse-handler">{{ fieldset.name }}</h2>{% endif %}
         {% if fieldset.description %}<div class="grp-row grp-description">{{ fieldset.description|safe }}</div>{% endif %}
         {% for line in fieldset %}

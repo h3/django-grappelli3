@@ -1,55 +1,53 @@
 {% load i18n grp_tags %}
-
-<div id="grp-navigation">
-    <h1 id="grp-admin-title">{% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}{% get_admin_title %}{% endif %}</h1>
-    {% if user.is_authenticated and user.is_staff %}
-        <ul id="grp-user-tools">
-            <!-- Username -->
-            <li class="grp-user-options-container grp-collapse grp-closed">
-                <a href="javascript://" class="user-options-handler grp-collapse-handler">{% firstof user.first_name user.username %}</a>
-                <ul class="grp-user-options">
-                    <!-- Change Password -->
-                    {% url admin:password_change as password_change_url %}
-                    {% if password_change_url %}
-                        <li><a href="{{ password_change_url }}">
-                    {% else %}
-                        <li><a href="{{ root_path }}password_change/">
-                    {% endif %}
-                    {% trans 'Change password' %}</a></li>
-                    <!-- Logout -->
-                    {% url admin:logout as logout_url %}
-                    {% if logout_url %}
-                        <li><a href="{{ logout_url }}">
-                    {% else %}
-                        <li><a href="{{ root_path }}logout/">
-                    {% endif %}
-                    {% trans 'Log out' %}</a></li>
-                </ul>
-            </li>
-            <!-- Userlinks -->
-            {% block userlinks %}
-                <!-- JS tests -->
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="/admin/">{% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}{% get_admin_title %}{% endif %}</a> 
+            {% if user.is_authenticated and user.is_staff %}
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <!-- Username -->
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">{% firstof user.first_name user.username %} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <!-- Change Password -->
+                        {% url admin:password_change as password_change_url %}
+                        {% if password_change_url %}
+                            <li><a href="{{ password_change_url }}">
+                        {% else %}
+                            <li><a href="{{ root_path }}password_change/">
+                        {% endif %}
+                        {% trans 'Change password' %}</a></li>
+                        <!-- Logout -->
+                        {% url admin:logout as logout_url %}
+                        {% if logout_url %}
+                            <li class="divider"></li>
+                            <li><a href="{{ logout_url }}">
+                        {% else %}
+                            <li><a href="{{ root_path }}logout/">
+                        {% endif %}
+                        {% trans 'Log out' %}</a></li>
+                    </ul>
+                </li>
+                <!-- Userlinks -->
+                {% block userlinks %}
                 {% url test-index as testindexurl %}
+                {% url django-admindocs-docroot as docsroot %}
+                {% if testindexurl or docsroot %}
+                <li class="divider-vertical"></li>
+                {% endif %}
+                <!-- JS tests -->
                 {% if testindexurl %}
-                    <li><a href="{{ testindexurl }}">{% trans 'Tests' %}</a></li>
+                <li><a href="{{ testindexurl }}">{% trans 'Tests' %}</a></li>
                 {% endif %}
                 <!-- Documentation -->
-                {% url django-admindocs-docroot as docsroot %}
                 {% if docsroot %}
-                    <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
+                <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
                 {% endif %}
+                {% endblock %}
+            </ul>
+            {% endif %}
+            {% block nav-global %}
             {% endblock %}
-        </ul>
-    {% endif %}
-    {% block nav-global %}
-    {% endblock %}
+        </div>
+    </div>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-    (function($) {
-        $(document).ready(function() {
-            $("#grp-navigation .grp-collapse").grp_collapsible();
-        });
-    })(django.jQuery);
-</script>
-
