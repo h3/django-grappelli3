@@ -142,7 +142,10 @@
 
             <!-- Errors -->
             {% if errors %}
-                <p class="errornote">{% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}</p>
+
+                <div class="alert alert-error">
+                    {% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+                </div>
                 <ul class="errorlist">{% for error in adminform.form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
             {% endif %}
             <!-- Fieldsets -->

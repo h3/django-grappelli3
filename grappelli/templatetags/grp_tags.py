@@ -179,7 +179,7 @@ def get_autocomplete_lookup_fields_generic(model_admin):
 def get_sortable_excludes(model_admin):
     return model_admin.sortable_excludes
 
-
+#TODO: deprecate ?
 @register.filter
 def prettylabel(value):
     return mark_safe(value.replace(":</label>", "</label>"))

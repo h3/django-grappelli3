@@ -1,6 +1,41 @@
 {% load grp_tags %}
 {% spaceless %}
     <fieldset class="grp-module control-group  well {{ fieldset.classes }}">
+        {% if fieldset.name %}<legend class="grp-collapse-handler">{{ fieldset.name }}</legend>{% endif %}
+        {% if fieldset.description %}<div class="grp-row grp-description">{{ fieldset.description|safe }}</div>{% endif %}
+        {% for line in fieldset %}
+            {% for field in line %}
+            <div class="control-group{% if field.field.errors %} error{% endif %}">
+                <label class="control-label" for="{{ field.field.id_for_label }}">{{ field.field.label }}</label>
+                <div class="controls grp-row grp-cells-{{ line.fields|length }}{% if not line.fields|length_is:"1" %} grp-cells{% else %}{% if line.errors %} grp-errors{% endif %}{% endif %}{% for field in line %} {{ field.field.name }}{% endfor %}">
+                    <div{% if not line.fields|length_is:"1" %} class="grp-cell {{ field.field.name }}"{% endif %}>
+                        {% if field.is_checkbox %}
+                            {{ field.field }}
+                        {% else %}
+                            {% if field.is_readonly %}
+                                <p class="grp-readonly">{{ field.contents }}</p>
+                            {% else %}
+                                {{ field.field }}
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if line.fields|length_is:'1' %}
+                            {{ line.errors }}
+                        {% endif %}
+                        {% if not line.fields|length_is:'1' and not field.is_readonly %}
+                            {{ field.field.errors }}
+                        {% endif %}
+                        {% if field.field.field.help_text %}
+                            <p class="grp-help help-block">{{ field.field.field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </fieldset>
+    {% comment %}
+    <fieldset class="grp-module control-group  well {{ fieldset.classes }}">
         {% if fieldset.name %}<h2 class="grp-collapse-handler">{{ fieldset.name }}</h2>{% endif %}
         {% if fieldset.description %}<div class="grp-row grp-description">{{ fieldset.description|safe }}</div>{% endif %}
         {% for line in fieldset %}
@@ -31,4 +66,5 @@
             </div>
         {% endfor %}
     </fieldset>
+    {% endcomment %}
 {% endspaceless %}
