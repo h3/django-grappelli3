@@ -9,9 +9,14 @@
 {% if not is_popup %}
     {% block breadcrumbs %}
         <ul class="grp-horizontal-list">
-            <li><a href="../">{% trans "Home" %}</a></li>
+        </ul>
+        <ul class="breadcrumb">
+            <li><a href="../">{% trans "Home" %}</a> <span class="divider">/</span></li>
             {% for app in app_list %}
-                {% blocktrans with app.name as name %}<li>{{ name }}</li>{% endblocktrans %}
+            <li class="active">
+                {% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}
+                {% if not forloop.last %}<span class="divider">/</span>{% endif %}
+            </li>
             {% endfor %}
         </ul>
     {% endblock %}

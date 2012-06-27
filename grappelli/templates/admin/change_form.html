@@ -94,15 +94,16 @@
 <!-- BREADCRUMBS -->
 {% block breadcrumbs %}
     {% if not is_popup %}
-        <ul>
-            <li><a href="../../../">{% trans "Home" %}</a></li>
-            <li><a href="../../">{% trans app_label|capfirst|escape %}</a></li>
-            <li>{% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}</li>
-            <li>{% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}</li>
+        <ul class="breadcrumb">
+            <li><a href="../../../">{% trans "Home" %}</a> <span class="divider">/</span></li>
+            <li><a href="../../">{% trans app_label|capfirst|escape %}</a> <span class="divider">/</span></li>
+            <li>{% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} <span class="divider">/</span></li>
+            <li class="active">{% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}</li>
         </ul>
     {% endif %}
 {% endblock %}
 
+{% comment %}
 <!-- PAGE-TOOLS -->
 {% block page-tools %}
     {% if not is_popup %}
@@ -112,18 +113,21 @@
         </ul>
     {% endif %}
 {% endblock %}
+{% endcomment %}
 
 <!-- OBJECT TOOLS -->
 {% block object-tools %}
-    {% if change %}
-        {% if not is_popup %}
-            <ul class="grp-object-tools">
-                {% block object-tools-items %}
-                    <li><a href="history/">{% trans "History" %}</a></li>
-                    {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="grp-state-focus" target="_blank">{% trans "View on site" %}</a></li>{% endif%}
-                {% endblock %}
-            </ul>
-        {% endif %}
+    {% if change and not is_popup %}
+    <div class="row-fluid">
+        <div class="grp-object-tools btn-group pull-right">
+            {% block object-tools-items %}
+            <a href="history/" class="btn">{% trans "History" %}</a>
+            {% if has_absolute_url %}
+            <a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="btn" target="_blank">{% trans "View on site" %}</a>
+            {% endif%}
+            {% endblock %}
+        </div>
+    </div>
     {% endif %}
 {% endblock %}
 

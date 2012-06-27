@@ -121,10 +121,10 @@
 <!-- BREADCRUMBS -- >
 {% block breadcrumbs %}
     {% if not is_popup %}
-        <ul class="grp-horizontal-list">
-            <li><a href="../../">{% trans "Home" %}</a></li>
-            <li><a href="../">{% trans app_label|capfirst|escape %}</a></li>
-            <li>{{ cl.opts.verbose_name_plural|capfirst }}</li>
+        <ul class="breadcrumb">
+            <li><a href="../../">{% trans "Home" %}</a> <span class="divider">/</span></li>
+            <li><a href="../">{% trans app_label|capfirst|escape %}</a> <span class="divider">/</span></li>
+            <li class="active">{{ cl.opts.verbose_name_plural|capfirst }}</li>
         </ul>
     {% endif %}
 {% endblock %}
